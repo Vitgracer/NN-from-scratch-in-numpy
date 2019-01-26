@@ -103,6 +103,35 @@ def optimizeGD(w, b, X, Y, iterations, lr):
     
     return params, grads, costs
 
+def predict(w, b, X):
+    '''
+    Predict whether the label is 0 or 1 using learned logistic regression parameters (w, b)
+    
+    Arguments:
+    w -- weights, a numpy array of size (w * h * 3, 1)
+    b -- bias, a scalar
+    X -- data of size (w * h * 3, number of examples)
+    
+    Returns:
+    yPrediction -- a numpy array (vector) containing all predictions (0/1) for the examples in X
+    '''
+    # m - number of samples 
+    m = X.shape[1]
+    yPrediction = np.zeros((1, m))
+    
+    # size is (number of features, 1) 
+    w = w.reshape(X.shape[0], 1)
+    
+    # Compute vector "A" predicting the probabilities for every samples 
+    # size is (1, m)
+    A = sigmoid(np.dot(w.T, X) + b)
+    
+    # predictions 
+    # size (1, m)
+    yPrediction = (A > 0.5).astype(float)    
+    
+    return yPrediction
+
 if __name__ == "__main__":
     trainX, trainY, testX, testY, classes = loadDataset()
     
