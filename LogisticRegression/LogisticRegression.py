@@ -130,7 +130,7 @@ def predict(w, b, X):
     
     return yPrediction
 
-def model(xTrain, yTrain, xTest, yTest, iterations = 2000, lr = 0.05):
+def model(xTrain, yTrain, xTest, yTest, iterations = 2000, lr = 0.01):
     """
     Builds the logistic regression model
     
