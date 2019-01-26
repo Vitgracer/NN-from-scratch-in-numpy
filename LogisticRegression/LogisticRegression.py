@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 from datasetLoader import loadDataset
 
 
@@ -132,6 +133,53 @@ def predict(w, b, X):
     
     return yPrediction
 
+def model(xTrain, yTrain, xTest, yTest, iterations = 2000, lr = 0.5):
+    """
+    Builds the logistic regression model
+    
+    Arguments:
+    xTrain -- training set of shape (w * h * 3, m_train)
+    yTrain -- training labels of shape (1, mTrain), where mTrain - number of samples
+    xTest -- test set (w * h* 3, mTest)
+    yTest -- test labels of shape (1, mTest)
+    iterations -- hyperparameter representing the number of iterations to optimize the weights
+    lr -- learning rate
+    
+    Returns:
+    d -- dictionary containing information about the model.
+    """
+    
+    # initialize parameters with zeros
+    # size of w - (number of features, 1)
+    # size of b = 1, scalar 
+    w, b = zeroInit(xTrain.shape[0])
+
+    # Gradient descent
+    parameters, grads, costs = optimizeGD(w, b, xTrain, yTrain, iterations, lr)
+    
+    # Retrieve parameters w and b from dictionary "parameters"
+    w = parameters["w"]
+    b = parameters["b"]
+    
+    # Predict test/train set examples (≈ 2 lines of code)
+    yPredTest = predict(w, b, xTest)
+    yPredTrain = predict(w, b, xTrain)
+
+    # Print train/test Errors
+    print("train accuracy: {} %".format(100 - np.mean(np.abs(yPredTrain - yTrain)) * 100))
+    print("test accuracy: {} %".format(100 - np.mean(np.abs(yPredTest - yTest)) * 100))
+
+    
+    d = {"costs": costs,
+         "yPredTest": yPredTest, 
+         "yPredTrain" : yPredTrain, 
+         "w" : w, 
+         "b" : b,
+         "lr" : lr,
+         "iterations": iterations}
+    
+    return d
+
 if __name__ == "__main__":
     trainX, trainY, testX, testY, classes = loadDataset()
     
@@ -142,5 +190,13 @@ if __name__ == "__main__":
     # transpose is implemented because of convenienece 
     trainXpreproc = trainX.reshape(trainX.shape[0], -1).T / 255.
     testXpreproc = testX.reshape(testX.shape[0], -1).T / 255.
-
+    
+    history = model(trainXpreproc, trainY, testXpreproc, testY)
+    
+    costs = np.squeeze(history['costs'])
+    plt.plot(costs)
+    plt.ylabel('cost')
+    plt.xlabel('iterations (per hundreds)')
+    plt.title("Learning rate =" + str(history["learning_rate"]))
+    plt.show()
     
