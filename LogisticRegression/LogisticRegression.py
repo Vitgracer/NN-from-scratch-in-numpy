@@ -6,7 +6,7 @@ from datasetLoader import loadDataset
 def sigmoid(z):
     return 1.0 / (1.0 + np.exp(-z))
 
-# dim - size of a vector w
+# dim - number of features 
 def zeroInit(dim):
     w = np.zeros((dim, 1))
     b = 0
@@ -45,7 +45,7 @@ def propagate(w, b, X, Y):
     cost = computeBinaryCrossEntropy(A, Y, m)
     
     # compute dJ / dw = [ dJ / dw1, ... , dJ / dw_m ]
-    # size is the same as w (number of features)
+    # size is the same as w (number of features, 1)
     # db is the same size as b, i.e scalar 
     dw = 1. / m * np.dot(X, (A - Y).T) 
     db = 1. / m * np.sum(A - Y)
@@ -120,9 +120,6 @@ def predict(w, b, X):
     m = X.shape[1]
     yPrediction = np.zeros((1, m))
     
-    # size is (number of features, 1) 
-    w = w.reshape(X.shape[0], 1)
-    
     # Compute vector "A" predicting the probabilities for every samples 
     # size is (1, m)
     A = sigmoid(np.dot(w.T, X) + b)
@@ -133,7 +130,7 @@ def predict(w, b, X):
     
     return yPrediction
 
-def model(xTrain, yTrain, xTest, yTest, iterations = 2000, lr = 0.5):
+def model(xTrain, yTrain, xTest, yTest, iterations = 2000, lr = 0.05):
     """
     Builds the logistic regression model
     
@@ -197,6 +194,6 @@ if __name__ == "__main__":
     plt.plot(costs)
     plt.ylabel('cost')
     plt.xlabel('iterations (per hundreds)')
-    plt.title("Learning rate =" + str(history["learning_rate"]))
+    plt.title("Learning rate =" + str(history["lr"]))
     plt.show()
     
