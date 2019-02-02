@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from datasetLoader import loadDataset
+from datasetLoaderLR import loadDataset
 
 
 def sigmoid(z):
