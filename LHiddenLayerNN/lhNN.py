@@ -186,7 +186,7 @@ def lModelForward(X, parameters):
             
     return AL, caches
 
-def compute_cost(AL, Y):
+def computeCost(AL, Y):
     """
     Implement the cost function 
 
@@ -340,32 +340,21 @@ def L_layer_model(X, Y, layers_dims, learning_rate = 0.0075, num_iterations = 30
     costs = []                         # keep track of cost
     
     # Parameters initialization. (≈ 1 line of code)
-    ### START CODE HERE ###
     parameters = initParams(layers_dims)
-    ### END CODE HERE ###
     
     # Loop (gradient descent)
     for i in range(0, num_iterations):
 
         # Forward propagation: [LINEAR -> RELU]*(L-1) -> LINEAR -> SIGMOID.
-        ### START CODE HERE ### (≈ 1 line of code)
-        AL, caches = lModelForward(X, parameters)
-        ### END CODE HERE ###
-        
+        AL, caches = lModelForward(X, parameters)        
         # Compute cost.
-        ### START CODE HERE ### (≈ 1 line of code)
-        cost = compute_cost(AL, Y)
-        ### END CODE HERE ###
+        cost = computeCost(AL, Y)
     
         # Backward propagation.
-        ### START CODE HERE ### (≈ 1 line of code)
         grads = lModelBackward(AL, Y, caches)
-        ### END CODE HERE ###
  
         # Update parameters.
-        ### START CODE HERE ### (≈ 1 line of code)
         parameters = updateParameters(parameters, grads, learning_rate)
-        ### END CODE HERE ###
                 
         # Print the cost every 100 training example
         print ("Cost after iteration %i: %f" %(i, cost))
