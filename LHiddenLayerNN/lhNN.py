@@ -1,8 +1,8 @@
-import h5py
 import numpy as np
 from datasetLoaderLhNN import loadDataset
 import matplotlib.pyplot as plt
 
+LAYER_DIMS = [12288, 20, 7, 5, 1] #  4-layer model
 
 def sigmoid(Z):
     """
@@ -336,7 +336,6 @@ def L_layer_model(X, Y, layers_dims, learning_rate = 0.0075, num_iterations = 30
     parameters -- parameters learnt by the model. They can then be used to predict.
     """
 
-    np.random.seed(1)
     costs = []                         # keep track of cost
     
     # Parameters initialization. (≈ 1 line of code)
@@ -413,7 +412,6 @@ if __name__ == "__main__":
     trainXpreproc = trainX.reshape(trainX.shape[0], -1).T / 255.
     testXpreproc = testX.reshape(testX.shape[0], -1).T / 255.
     
-    # model
-    layers_dims = [12288, 20, 7, 5, 1] #  4-layer model
-    parameters = L_layer_model(trainXpreproc, trainY, layers_dims, num_iterations = 2500)
+    # model    
+    parameters = L_layer_model(trainXpreproc, trainY, LAYER_DIMS, num_iterations = 2500)
     predTest = predict(testXpreproc, testY, parameters)
