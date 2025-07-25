@@ -1,3 +1,5 @@
+![](https://api.visitorbadge.io/api/VisitorHit?user=Vitgracer&repo=Backprop-From-Scratch&countColor=%237B1E7A)
+
 # Deep Learning from Scratch (with Pure NumPy, hey)
 
 Welcome to the neural jungle!  
